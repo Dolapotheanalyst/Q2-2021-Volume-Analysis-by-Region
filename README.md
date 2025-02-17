@@ -1,6 +1,7 @@
 # Q2-2021-Volume-Analysis-by-Region
 This project analyzes regional volume trends in Q2 2021, focusing on customer attrition, growth slowdowns, and onboarding effects
 #Q2 2021 Volume Analysis by Region
+
 #📩 Email Request
 The board is asking to see how volume looks in Q2. I got some data gathered! But didn’t have a chance to pull anything together and was hoping you could take a stab at it.
 I think they just want to see the Q2 2021 volume by region and wanted to know if everything was looking good. I think this file has what you need.
@@ -11,12 +12,15 @@ I don’t remember all the region codes – I know NAAM ends in 1, EMEA ends in 
 I discovered the data was wrapped together, which didn’t look good, so I:
 Unwrapped it using the Wrap/Unwrap Text option in Excel’s Home ribbon.
 AutoFit the column width using the Format ribbon extension.
+
 🔹 Structuring the Dataset
 I created a table using Ctrl + T and named it "Volume by Client", since this dataset represents client volume.
 I checked for blanks using the Filter option—there were none, meaning the dataset was complete.
+
 🔹 Formatting Date and Volume Columns
 The Date column was stored as text, so I converted it using Text to Columns.
 The Volume column was also stored as text, so I reformatted it to Number for accurate calculations.
+
 🔹 Cleaning the GEOID Dataset
 I checked the GEOID dataset (Client Geography data) and applied similar formatting:
 Unwrapped text
@@ -30,6 +34,7 @@ Geo001
 Geo002
 Geo003
 Geo004
+
 📍 Assigning Region Names
 Since the email provided hints about regional codes:
 Geo001 = NAAM (ends in 1)
@@ -42,6 +47,7 @@ To link GeoID from the Geo dataset to the Client ID in the Volume dataset:
 I noticed that Client ID in the Volume dataset had 7 characters, while in the Geo dataset, it had 9 characters due to the "C-" prefix.
 I extracted the relevant portion using the A-Right function to make them match.
 Using XLOOKUP, I assigned the correct GeoID to each Client ID in the Volume dataset.
+
 📊 Volume Analysis by Region
 Since LATAM had the lowest volume, I used SUMIFS to determine the total volume per region:
 Region	GeoID	Total Volume
@@ -62,6 +68,7 @@ Q1 growth was 4%, but it slowed to 2.7% in Q2, primarily due to:
 LATAM’s overall growth rate dropped from 9% in Q1 to flat in Q2 (year-on-year).
 NAAM Region Onboarding Impact
 Clients onboarded in Q2 2020 in the NAAM region anniversaried in Q2 2021, making the perceived growth appear slower.
+
 ✅ Final Data Integration
 To streamline reporting, I merged all the cleaned and structured data into a single "Volume Data" worksheet. Using XLOOKUP, I assigned the appropriate Region Names for each GeoID.
 #Key Techniques
