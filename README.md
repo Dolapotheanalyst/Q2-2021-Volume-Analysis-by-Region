@@ -1,13 +1,17 @@
-# Q2-2021-Volume-Analysis-by-Region
+ Q2-2021-Volume-Analysis-by-Region
 This project analyzes regional volume trends in Q2 2021, focusing on customer attrition, growth slowdowns, and onboarding effects
 #Q2 2021 Volume Analysis by Region
 
-#📩 Email Request
+📩 Email Request
 The board is asking to see how volume looks in Q2. I got some data gathered! But didn’t have a chance to pull anything together and was hoping you could take a stab at it.
 I think they just want to see the Q2 2021 volume by region and wanted to know if everything was looking good. I think this file has what you need.
 I don’t remember all the region codes – I know NAAM ends in 1, EMEA ends in 3, and APAC and LATAM are 2 and 4, but I don’t remember which is which. I do know LATAM has the lowest volume, so just go ahead and assign that to whichever comes out lowest.
 
-##🛠 Data Cleaning
+Data Source:
+https://github.com/mat...​
+
+🛠 Data Cleaning
+
 🔹 Handling Wrapped Data
 I discovered the data was wrapped together, which didn’t look good, so I:
 Unwrapped it using the Wrap/Unwrap Text option in Excel’s Home ribbon.
