@@ -74,8 +74,11 @@ EMEA	Geo003	830,760
 APAC	Geo002	562,005
 
 LATAM	Geo004	425,262
+
 ✔ LATAM had the lowest volume, as expected.
+
 ✔ Regional assignments were now properly mapped.
+
 ✔ The volume distribution for Q2 2021 was confirmed.
 
 🔍 Discoveries Using Pivot Table
