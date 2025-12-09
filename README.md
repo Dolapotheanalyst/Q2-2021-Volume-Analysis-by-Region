@@ -1,131 +1,259 @@
- Q2-2021-Volume-Analysis-by-Region
- 
-This project analyzes regional volume trends in Q2 2021, focusing on customer attrition, growth slowdowns, and onboarding effects
-Q2 2021 Volume Analysis by Region
+#  Q2 2021 Volume Analysis by Region  
+### Comprehensive Data Cleaning, Transformation & Business Insight Project
 
-📩 Email Request
+This project focuses on analyzing Q2 2021 volume performance across global regions. It includes full data cleaning, data restructuring, Excel-based analytics, regional mapping, XLOOKUP transformation, SUMIFS aggregation, and Pivot Table insight generation. The goal was to prepare a polished, board-ready summary of regional performance — including volume distribution, customer attrition, onboarding effects, and quarter-over-quarter (QoQ) growth trends.
 
-The board is asking to see how volume looks in Q2. I got some data gathered! But didn’t have a chance to pull anything together and was hoping you could take a stab at it.
-I think they just want to see the Q2 2021 volume by region and wanted to know if everything was looking good. I think this file has what you need.
-I don’t remember all the region codes – I know NAAM ends in 1, EMEA ends in 3, and APAC and LATAM are 2 and 4, but I don’t remember which is which. I do know LATAM has the lowest volume, so just go ahead and assign that to whichever comes out lowest.
+---
 
-Data Source:
-https://github.com/mat...​
+#  Email Request (Project Background)
 
-🛠 #Data Cleaning
+The analysis was initiated based on a request from the company’s board.  
+The forwarded email provided limited but crucial context:
 
-🔹 Handling Wrapped Data
-I discovered the data was wrapped together, which didn’t look good, so I:
-Unwrapped it using the Wrap/Unwrap Text option in Excel’s Home ribbon.
-AutoFit the column width using the Format ribbon extension.
+- “We need to see how Q2 2021 volumes look by region.”
+- “I don’t remember all the region codes… NAAM ends in 1, EMEA ends in 3, APAC and LATAM are 2 and 4.”
+- “LATAM has the lowest volume — so assign LATAM to whichever code ends up lowest.”
+- “The dataset attached should contain everything you need.”
 
-🔹 Structuring the Dataset
-I created a table using Ctrl + T and named it "Volume by Client", since this dataset represents client volume.
-I checked for blanks using the Filter option—there were none, meaning the dataset was complete.
+This meant the dataset contained:
 
-🔹 Formatting Date and Volume Columns
-The Date column was stored as text, so I converted it using Text to Columns.
-The Volume column was also stored as text, so I reformatted it to Number for accurate calculations.
+- **Volume data by client** for Q2 2021  
+- **Client-to-Region** mapping via **Geo Codes (GeoID)**  
+- But **region names were NOT given**, so we had to infer and validate region → GeoID assignments.
 
-🔹 Cleaning the GEOID Dataset
-I checked the GEOID dataset (Client Geography data) and applied similar formatting:
-Unwrapped text
-AutoFit column width
-Converted to a table named "Geo by Client"
-I checked for duplicates and blank values—there were none for Client ID, meaning the dataset was in good shape.
-However, the GeoID column contained several duplicates.
+This project replicates the real-world challenge of **working with incomplete documentation**, requiring:
 
-I copied it to a new sheet and removed duplicates, leaving the following unique codes:
+- Logical deduction  
+- Business understanding  
+- Careful data cleaning  
+- Analytical validation  
 
-Geo001
+---
 
-Geo002
+#  Data Cleaning & Preparation
 
-Geo003
+The raw datasets required significant cleaning before analysis.
 
-Geo004
+---
 
-📍 Assigning Region Names
-Since the email provided hints about regional codes:
+##  Handling Wrapped & Unstructured Data  
+The Volume dataset arrived with wrapped text and inconsistent formatting, making it visually messy and prone to errors. To prepare it for analysis:
 
-Geo001 = NAAM (ends in 1)
+- Unwrapped the data using **Home → Wrap Text (off)**  
+- AutoFit all columns for readability  
+- Converted the dataset into an Excel table (`Ctrl + T`) named **Volume by Client**  
+- Applied filters to check for blank values — **none were found**, meaning the dataset was complete and reliable
 
-Geo003 = EMEA (ends in 3)
+This step established a clean, structured base for further transformation.
 
-Geo002 and Geo004 were unassigned.
+---
 
-The email mentioned that LATAM had the lowest volume, so I had to determine which GeoID had the lowest total volume and assign LATAM accordingly.
+##  Fixing Data Type Issues  
+Two major fields were incorrectly formatted as text:
 
-🔍 #Data Matching Using XLOOKUP
-To link GeoID from the Geo dataset to the Client ID in the Volume dataset:
-I noticed that Client ID in the Volume dataset had 7 characters, while in the Geo dataset, it had 9 characters due to the "C-" prefix.
-I extracted the relevant portion using the A-Right function to make them match.
-Using XLOOKUP, I assigned the correct GeoID to each Client ID in the Volume dataset.
+### 1️ Date Column  
+Dates were stored as strings.  
+- Used **Text to Columns** to convert to real date values  
+- Ensured Excel recognized them as valid date objects for sorting and filtering
 
-📊 Volume Analysis by Region
+### 2️ Volume Column  
+Volume values were numeric but stored as text.  
+- Reformatted to **Number**  
+- Ensured accurate calculations for SUMIFS and Pivot Tables  
+- Eliminated trailing spaces and formatting noise
 
-Since LATAM had the lowest volume, I used SUMIFS to determine the total volume per region:
+Incorrect data types are a leading cause of calculation errors — correcting them ensures accurate aggregation later.
 
-Region	GeoID	Total Volume
-NAAM	Geo001	3,002,286
+---
 
-EMEA	Geo003	830,760
+##  Cleaning the GEOID (Client Geography) Dataset  
+The Client Geography file contained Client IDs and GeoIDs.  
+Cleaning steps included:
 
-APAC	Geo002	562,005
+- Unwrapped text for readability  
+- AutoFit column widths  
+- Converted to a structured table named **Geo by Client**  
+- Checked for duplicates or missing Client IDs — none found  
+- Detected **duplicate GeoIDs**, requiring a uniqueness check
 
-LATAM	Geo004	425,262
+After removing duplicates, four valid GeoIDs remained:
 
-✔ LATAM had the lowest volume, as expected.
+- **Geo001**  
+- **Geo002**  
+- **Geo003**  
+- **Geo004**
 
-✔ Regional assignments were now properly mapped.
+These four codes represent NAAM, EMEA, APAC, and LATAM — but their mapping had to be logically derived.
 
-✔ The volume distribution for Q2 2021 was confirmed.
+---
 
-🔍 Discoveries Using Pivot Table
+#  Assigning Regions to GEOID Codes
 
-Customer Attrition in LATAM
+The email provided incomplete mapping information:
 
-2 customers left the LATAM region in Q2, removing 7k in volume from the dataset.
+- Region codes ending in **1 → NAAM**  
+- Ending in **3 → EMEA**  
+- Codes ending in **2 or 4 → APAC or LATAM (order unknown)**  
+- “LATAM has the lowest volume.”
 
-Q2 Growth Slowdown
-Q1 growth was 4%, but it slowed to 2.7% in Q2, primarily due to:
+###  Step 1: Assign known codes  
+- **Geo001 → NAAM**  
+- **Geo003 → EMEA**
 
-0.7% (7k volume) decline from the loss of two customers in LATAM.
+###  Step 2: Determine APAC vs LATAM  
+To determine which GeoID represented APAC vs LATAM:
 
-LATAM’s overall growth rate dropped from 9% in Q1 to flat in Q2 (year-on-year).
+1. Calculated total volume for Geo002 and Geo004  
+2. The one with **lower total volume** was assigned to LATAM  
+3. The remaining GeoID became APAC  
 
-NAAM Region Onboarding Impact
-Clients onboarded in Q2 2020 in the NAAM region anniversaried in Q2 2021, making the perceived growth appear slower.
+This ensures the region mapping is **data-driven**, not guessed.
 
-✅ Final Data Integration
-To streamline reporting, I merged all the cleaned and structured data into a single "Volume Data" worksheet. Using XLOOKUP, I assigned the appropriate Region Names for each GeoID.
+---
 
-Key Techniques
+#  Data Matching Using XLOOKUP
 
-Data Cleaning & Formatting
+A major challenge arose:  
+**Client IDs in the Volume dataset did not match Client IDs in the Geo dataset.**
 
-Pivot Table Analysis
+- Volume dataset IDs = **7 characters**  
+- Geo dataset IDs = **9 characters**, including `"C-"` prefix
 
-XLOOKUP & SUMIFS for Data Mapping
+To resolve:
 
-Identifying Business Insights from Volume Trends
+1. Extracted the last characters using **RIGHT()**  
+2. Used **XLOOKUP** to match cleaned Client IDs  
+3. Retrieved **GeoIDs** for each client  
+4. Used **XLOOKUP** again to map GeoIDs → Region Names
 
-📝 Key Features
+This created a fully connected dataset linking:
 
-📌 Automated Data Cleaning using Excel functions
+**Client → GeoID → Region → Volume**
 
-📊 Pivot Table Analysis to track volume movements
+---
 
-🔍 Business Insights on customer churn and revenue shifts
+#  Q2 2021 Volume Summary by Region
 
-📈 Growth Trend Analysis across different regions
+After assigning region names and aggregating volumes:
 
-🎯 Key Takeaways
-✔ Data cleaning ensured accuracy—formatting, handling missing values, and standardizing IDs improved the dataset.
+| Region | GeoID  | Total Volume |
+|--------|--------|--------------|
+| **NAAM** | Geo001 | **3,002,286** |
+| **EMEA** | Geo003 | **830,760** |
+| **APAC** | Geo002 | **562,005** |
+| **LATAM** | Geo004 | **425,262** |
 
-✔ XLOOKUP and SUMIFS simplified analysis, making it easy to assign regions and calculate totals.
+###  LATAM confirmed as lowest-volume region  
+###  Region assignments validated  
+###  Q2 performance accurately reflected  
 
-✔ Pivot Tables uncovered key business insights, including customer attrition, slowed growth, and onboarding effects.
+---
 
-✔ GitHub Portfolio Project showcases Excel skills, data analysis, and business intelligence insights.
+#  Insights from Pivot Table Analysis
 
+Pivot Tables were used to uncover hidden trends behind Q2 performance.
+
+---
+
+##  1. Customer Attrition in LATAM  
+- 2 customers churned in Q2  
+- Resulting in **7k reduction** in total volume  
+- LATAM’s growth trajectory was heavily impacted  
+- Demonstrates the sensitivity of low-volume regions to customer churn
+
+---
+
+##  2. Growth Slowdown from Q1 → Q2  
+Growth analysis revealed:
+
+- **Q1 Growth:** 4%  
+- **Q2 Growth:** 2.7%  
+
+Breakdown:
+
+- **0.7% decrease** from LATAM churn  
+- LATAM year-on-year (YoY) growth:  
+  - Q1 → **9%**  
+  - Q2 → **0%**  
+- Reduction due to no new clients and churn impact
+
+This shows how regional performance contributes to global growth trends.
+
+---
+
+##  3. NAAM Onboarding Anniversary Effect  
+Many NAAM clients who onboarded in Q2 2020 “anniversaried” in Q2 2021.
+
+This meant:
+
+- Their volume no longer counted as incremental growth  
+- Growth metrics appeared slower  
+- Revenue normalization occurred as onboarding effects tapered off
+
+This is a real-world phenomenon seen in subscription and volume-driven businesses.
+
+---
+
+#  Final Data Integration
+
+All transformed data was merged into a single sheet named **Volume Data**, containing:
+
+- Cleaned Volume Data  
+- Geo Mapping  
+- Region Assignment  
+- Final Aggregated Metrics  
+
+This streamlined the entire analysis and enabled board-ready reporting.
+
+---
+
+#  Key Techniques Demonstrated
+
+- Advanced Excel Data Cleaning  
+- Text Unwrapping & AutoFormatting  
+- Text-to-Columns Conversion  
+- Numeric Formatting & Standardization  
+- XLOOKUP for dataset merging  
+- RIGHT() for string extraction  
+- SUMIFS for metric aggregation  
+- Pivot Table Analytics  
+- Business Insight Interpretation  
+- Region Classification Logic  
+
+This project mirrors real corporate analytics workflows where datasets are:
+
+- Messy  
+- Incomplete  
+- Poorly labeled  
+
+And must be structured and interpreted with precision.
+
+---
+
+#  Key Features of This Project
+
+- Detailed data cleaning and preparation workflow  
+- Accurate regional volume assignment  
+- Logical deduction based on available metadata  
+- Churn and growth trend analysis  
+- Quarter-over-quarter performance narrative  
+- Clear business intelligence insights  
+- Strong Excel-based analytics demonstration  
+
+---
+
+#  Key Takeaways
+
+✔ Clean data leads to reliable insights  
+✔ XLOOKUP and SUMIFS make multi-source merging efficient  
+✔ Pivot Tables reveal the root causes behind growth shifts  
+✔ LATAM’s low volume magnifies churn effects  
+✔ NAAM’s onboarding anniversary explains stabilize growth  
+✔ APAC and EMEA show moderate, stable volume patterns  
+✔ This project is ideal for showing real-world data analyst skills  
+
+---
+
+#  Author
+**Adewumi Dolapo**  
+Data Analyst | Excel | Business Intelligence | Data Cleaning | Reporting
